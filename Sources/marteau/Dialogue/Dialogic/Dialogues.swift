@@ -21,7 +21,7 @@ public protocol Dialogable {
     var type: DialogueType { get }
 
     /// Returns a JSON-compatible dictionary.
-    func toJSON() -> JSONLike
+    func toDialogicJSON() -> JSONLike
 }
 
 /// A protocol that determines the struct or class contains information about a speaker and its message.
@@ -38,7 +38,7 @@ public protocol Speakable {
 public protocol JSONCollapsible {
 
     /// Returns a list of JSON-like dictionaries.
-    func collapseJSON() -> [JSONLike]
+    func flattenDialogicJSON() -> [JSONLike]
 }
 
 /// A basic dialogue interaction.
@@ -48,7 +48,7 @@ public struct Dialogue: Dialogable, Speakable {
     public var who: String = ""
     public var what: String = ""
 
-    public func toJSON() -> JSONLike {
+    public func toDialogicJSON() -> JSONLike {
         [
             "character": who,
             "event_id": "dialogic_001",
@@ -64,7 +64,7 @@ public struct Narration: Dialogable, Speakable {
     public var who: String = ""
     public var what: String = ""
 
-    public func toJSON() -> JSONLike {
+    public func toDialogicJSON() -> JSONLike {
         [
             "character": "",
             "event_id": "dialogic_001",
@@ -81,7 +81,7 @@ public struct Question: Dialogable, JSONCollapsible {
     public let question: String
     public let choices: [Choice]
 
-    public func toJSON() -> JSONLike {
+    public func toDialogicJSON() -> JSONLike {
         [
             "character": who,
             "event_id": "dialogic_010",
@@ -97,8 +97,8 @@ public struct Question: Dialogable, JSONCollapsible {
         ]
     }
 
-    public func collapseJSON() -> [JSONLike] {
-        [toJSON()] + choices.flatMap { choice in choice.collapseJSON() } + [endQuestionNode()]
+    public func flattenDialogicJSON() -> [JSONLike] {
+        [toDialogicJSON()] + choices.flatMap { choice in choice.flattenDialogicJSON() } + [endQuestionNode()]
     }
 }
 
@@ -108,7 +108,7 @@ public struct Choice: Dialogable, JSONCollapsible {
     public let choice: String
     public let dialogue: [Dialogable]
 
-    public func toJSON() -> JSONLike {
+    public func toDialogicJSON() -> JSONLike {
         [
             "choice": choice,
             "condition": "",
@@ -118,8 +118,8 @@ public struct Choice: Dialogable, JSONCollapsible {
         ]
     }
 
-    public func collapseJSON() -> [JSONLike] {
-        [toJSON()] + dialogue.map { dialogue in dialogue.toJSON() }
+    public func flattenDialogicJSON() -> [JSONLike] {
+        [toDialogicJSON()] + dialogue.map { dialogue in dialogue.toDialogicJSON() }
     }
 }
 
@@ -128,5 +128,5 @@ public struct Comment: Dialogable {
     public var type: DialogueType { .comment }
     public let note: String
 
-    public func toJSON() -> JSONLike { [:] }
+    public func toDialogicJSON() -> JSONLike { [:] }
 }

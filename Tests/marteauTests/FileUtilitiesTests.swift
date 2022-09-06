@@ -32,7 +32,7 @@ class FileUtilitiesTests: XCTestCase {
         let filename = "test.txt"
         try FileUtilities.write("Hello, world!", to: filename)
 
-        let text = try FileUtilities.read(from: filename)
+        let text: String = try FileUtilities.read(from: filename)
         XCTAssertTrue(text.contains("Hello, world!"))
     }
 

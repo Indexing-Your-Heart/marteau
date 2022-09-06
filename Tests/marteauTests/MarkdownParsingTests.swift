@@ -11,7 +11,7 @@
 //  details.
 
 import Foundation
-import marteau
+@testable import marteau
 import XCTest
 
 enum TestError: Error {
@@ -24,7 +24,7 @@ final class MarkdownParsingTests: XCTestCase {
     /// Test that the Markdown to Dialogic parser can successfully construct a narration block.
     func testMarkdownNarration() throws {
         let example = "I slowly walk to the door."
-        let parsedData = MarkdownDialogicParser(from: example).parse().first
+        let parsedData = InternalMarkdownParser(from: example).parse().first
         XCTAssertTrue(parsedData is Narration)
         XCTAssertEqual((parsedData as! Narration).what, example)
     }
@@ -36,7 +36,7 @@ final class MarkdownParsingTests: XCTestCase {
         John: "Uh, sure!"
         """
 
-        let parsedData = MarkdownDialogicParser(from: example).parse()
+        let parsedData = InternalMarkdownParser(from: example).parse()
         for child in parsedData {
             XCTAssertTrue(child is Dialogue)
         }
@@ -45,7 +45,7 @@ final class MarkdownParsingTests: XCTestCase {
     /// Test that the Markdown to Dialogic parser can successfully construct a comment block.
     func testMarkdownComment() throws {
         let example = "> This is a test."
-        let parsedData = MarkdownDialogicParser(from: example).parse().first
+        let parsedData = InternalMarkdownParser(from: example).parse().first
         XCTAssertTrue(parsedData is Comment)
         XCTAssertEqual((parsedData as! Comment).note, "This is a test.")
     }
@@ -60,7 +60,7 @@ final class MarkdownParsingTests: XCTestCase {
                 - I decide to go right.
         """
 
-        let parsedData = MarkdownDialogicParser(from: example).parse().first
+        let parsedData = InternalMarkdownParser(from: example).parse().first
         XCTAssertTrue(parsedData is Question)
 
         guard let question = parsedData as? Question else {
@@ -97,7 +97,7 @@ final class MarkdownParsingTests: XCTestCase {
         > This is the end of the dialogue.
         """
 
-        let parsedData = MarkdownDialogicParser(from: testExample).parse()
+        let parsedData = InternalMarkdownParser(from: testExample).parse()
         XCTAssertEqual(parsedData.count, 5)
     }
 

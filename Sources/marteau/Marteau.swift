@@ -16,7 +16,6 @@ import ArgumentParser
 /// The main entry struct that holds all of the program commands.
 @main
 struct Marteau: ParsableCommand {
-
     /// The configuration for the main program.
     static let configuration = CommandConfiguration(
         abstract: "A set of utilities for Indexing Your Heart.",
@@ -35,6 +34,10 @@ struct Marteau: ParsableCommand {
         @Argument(help: "The path to where the output JSON file should go.")
         var outputFile: String = "timeline.json"
 
+        /// The export strategy.
+        @Option(help: "The JSON format to use during export.")
+        var exportStrategy: String = "dialogic"
+
         /// (Optional) The path to a directory of character definitions in Dialogic format.
         @Option(help: "The path to a directory of character definitions.")
         var characters: String?
@@ -47,17 +50,31 @@ struct Marteau: ParsableCommand {
 
         func run() throws {
             let markdownText: String = try FileUtilities.read(from: markdownFile, encoding: .utf8)
-            let parser = MarkdownDialogicParser(from: markdownText)
-            print("[i] Parser created.")
-            if let charpath = characters {
-                let characterGlobs = try FileUtilities.readAll(from: charpath)
-                parser.characterDefinitions = try characterGlobs
-                    .map { try JSONDecoder().decode(DialogicCharacter.self, from: $0) }
-                print("[i] Character definitions added.")
+            switch exportStrategy {
+            case "dialogic":
+                let mdParser = MarkdownDialogicParser(from: markdownText)
+                if let charpath = characters {
+                    let characterGlobs = try FileUtilities.readAll(from: charpath)
+                    mdParser.characterDefinitions = try characterGlobs
+                        .map { try JSONDecoder().decode(DialogicCharacter.self, from: $0) }
+                    print("[i] Character definitions added.")
+                }
+                let resultData = mdParser.compileToString()
+                try FileUtilities.write(resultData, to: outputFile, encoding: .utf8)
+            case "jenson":
+                let jsParser = MarkdownJensonParser(from: markdownText)
+                let resultData = jsParser.compileToString()
+                let encodedData = Data(resultData.utf8)
+                    .base64EncodedString(options: .lineLength64Characters)
+                try FileUtilities.write(
+                    encodedData,
+                    to: outputFile.replacingOccurrences(of: ".json", with: ".jenson"),
+                    encoding: .utf8
+                )
+            default:
+                print("[e] Unknown export strategy \(exportStrategy). Aborting.")
+                return
             }
-            let resultData = parser.compileToString()
-            try FileUtilities.write(resultData, to: outputFile, encoding: .utf8)
         }
     }
-
 }

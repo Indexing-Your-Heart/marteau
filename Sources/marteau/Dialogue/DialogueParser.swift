@@ -1,6 +1,6 @@
 //
-//  DialogueType.swift
-//  Created by Marquis Kurt on 10/1/22.
+//  DialogueParser.swift
+//  Created by Marquis Kurt on 9/6/22.
 //  This file is part of Indexing Your Heart.
 //
 //  Indexing Your Heart is non-violent software: you can use, redistribute, and/or modify it under the terms of the
@@ -10,12 +10,10 @@
 //  Indexing Your Heart comes with ABSOLUTELY NO WARRANTY, to the extent permitted by applicable law. See the CNPL for
 //  details.
 
+
 import Foundation
 
-public enum DialogueType {
-    case dialogue
-    case narration
-    case question
-    case choice
-    case comment
+protocol DialogueParser {
+    var source: String { get set }
+    func compileToString() -> String
 }
