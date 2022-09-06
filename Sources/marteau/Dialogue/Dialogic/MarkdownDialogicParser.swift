@@ -24,68 +24,79 @@ public class MarkdownDialogicParser {
         self.parser = InternalMarkdownParser(from: source)
     }
 
+    func updatePart(_ part: Speakable) -> Speakable {
+        var speaker = part
+        if let char = characterDefinitions.first(where: { $0.getAllNames().contains(speaker.who) }) {
+            speaker.who = char.id
+        }
+        return speaker
+    }
+
+    func transform(events: [DialogueUnit]) -> [DialogicEvent] {
+        var transformed = [DialogicEvent]()
+        for event in events {
+            if let dialogue = event as? Speakable {
+                transformed.append(.dialogue(character: dialogue.who, text: dialogue.what))
+            }
+            if let question = event as? Question {
+                let options = question.choices.flatMap { choice in
+                    [
+                        .choice(named: choice.choice)
+                    ]
+                    + transform(events: choice.dialogue)
+                }
+                transformed.append(.question(character: question.who, question: question.question))
+                transformed.append(contentsOf: options)
+                transformed.append(.endQuestion())
+            }
+        }
+        return transformed
+    }
+
     /// Returns a list of JSON-like objects from the source string into Dialogic-readable JSON.
-    public func compile() -> [JSONLike] {
-        var compiled = [JSONLike]()
+    public func compile() -> [DialogicEvent] {
         var parts = parser.parse()
         if parts.isEmpty {
-            return [JSONLike]()
+            return [DialogicEvent]()
         }
 
-        // First-pass. Replace character names with their corresponding IDs, if there are definitions.
         if !characterDefinitions.isEmpty {
-            func updatePart(_ part: Speakable) -> Dialogable {
-                var speaker = part
-                if let char = characterDefinitions.first(where: { $0.getAllNames().contains(speaker.who) }) {
-                    speaker.who = char.id
-                }
-                return speaker as! Dialogable
-            }
-
             parts = parts.map { part in
-                if part is Speakable { return updatePart(part as! Speakable) }
-                if part is Question {
-                    let question = part as! Question
+                if let dialogue = part as? Speakable {
+                    let updatedPart = updatePart(dialogue)
+                    return updatedPart as! DialogueUnit
+                }
+
+                if let question = part as? Question {
                     let newChoices: [Choice] = question.choices.map { choice in
-                        let newDialog: [Dialogable] = choice.dialogue
-                            .map { diag in updatePart(diag as! Speakable) }
+                        let newDialog: [DialogueUnit] = choice.dialogue
+                            .map { diag in updatePart(diag as! Speakable) as! DialogueUnit }
                         return Choice(choice: choice.choice, dialogue: newDialog)
                     }
                     return Question(who: question.who, question: question.question, choices: newChoices)
                 }
+
                 return part
             }
         }
 
-        // Second-pass.
-        for part in parts {
-            if part is Comment { continue }
-            if part is JSONCollapsible {
-                compiled.append(contentsOf: (part as! JSONCollapsible).flattenDialogicJSON())
-                continue
-            }
-            compiled.append(part.toDialogicJSON())
-        }
-
-        print("[i] Compiled \(compiled.count) items.")
-        return compiled
+        print("[i] Compiled dialogue.")
+        return transform(events: parts)
     }
 }
 
 extension MarkdownDialogicParser: DialogueParser {
     /// Returns a String that represents Dialogic-readable JSON of the parsed content.
     public func compileToString() -> String {
-        let compilation: [JSONLike] = compile()
-        var jsonResult = ""
-
+        let compilation: [DialogicEvent] = compile()
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
         do {
-            let json = try JSONSerialization.data(withJSONObject: compilation, options: .prettyPrinted)
-            jsonResult = String(decoding: json, as: UTF8.self)
+            let data = try encoder.encode(compilation)
+            return String(data: data, encoding: .utf8) ?? ""
         } catch {
-            print("Error: \(error.localizedDescription)")
-            jsonResult = "[]"
+            print(error.localizedDescription)
+            return ""
         }
-
-        return jsonResult
     }
 }

@@ -21,10 +21,10 @@ class InternalMarkdownParser {
         self.source = source
     }
 
-    public func parse() -> [Dialogable] {
+    public func parse() -> [DialogueUnit] {
         let mdDoc = Document(parsing: source)
-        if mdDoc.isEmpty { return [Dialogable]() }
-        var parts = [Dialogable]()
+        if mdDoc.isEmpty { return [DialogueUnit]() }
+        var parts = [DialogueUnit]()
 
         for child in mdDoc.children {
             if let paragraph = child as? Paragraph {
@@ -58,7 +58,7 @@ class InternalMarkdownParser {
     private func parseChoice(_ choice: ListItem) -> Choice {
         let choiceName = choice.child(through: 0, 0) as! Text
         let choiceResults = choice.child(through: 1) as! UnorderedList
-        var dialogues = [Dialogable]()
+        var dialogues = [DialogueUnit]()
 
         for dialogue in choiceResults.children {
             if let dList = dialogue as? ListItem {
@@ -72,12 +72,12 @@ class InternalMarkdownParser {
     }
 
     /// Parses a paragraph, extracting narration and dialogue elements as necessary.
-    private func parseParagraph(_ paragraph: Paragraph) -> [Dialogable] {
+    private func parseParagraph(_ paragraph: Paragraph) -> [DialogueUnit] {
         // If there are no elements in the paragraph, return an empty list.
-        if paragraph.isEmpty { return [Dialogable]() }
+        if paragraph.isEmpty { return [DialogueUnit]() }
 
         // Create a place to store dialogue parts.
-        var dialogues = [Dialogable]()
+        var dialogues = [DialogueUnit]()
 
         // Create a regex that will look for the format `Name: "Speech."`. This will, in turn, seek out dialogue lines
         // from a regular line of text.

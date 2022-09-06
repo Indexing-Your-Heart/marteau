@@ -21,7 +21,7 @@ public class MarkdownJensonParser {
         self.parser = InternalMarkdownParser(from: source)
     }
 
-    func transform(events: [Dialogable]) -> [JensonEvent] {
+    func transform(events: [DialogueUnit]) -> [JensonEvent] {
         var transformed = [JensonEvent]()
         for event in events {
             if let comment = event as? Comment {
