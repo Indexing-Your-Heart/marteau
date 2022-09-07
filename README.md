@@ -18,6 +18,16 @@ swift build
 swift run marteau
 ```
 
+## Build for distribution
+
+To build Marteau for distribution, run the following command:
+
+```
+swift build -c release
+```
+
+The compiled executable will be available in `.build/release`
+
 ## Command-line guide
 
 Marteau contains several subcommands:
