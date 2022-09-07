@@ -9,7 +9,18 @@ _Indexing Your Heart_.
   format or the Jenson file format.
 - **Easy Portrait Import**: Import a series of portraits into a Dialogic character sheet.
 
-## Running from source
+## Getting started
+
+### Install from Homebrew
+
+Run the following commands to install Marteau through Homebrew:
+
+```
+brew tap Indexing-Your-Heart/homebrew-packages
+brew install marteau
+```
+
+### Running from source
 
 After cloning the main repository, run the following to build and run Marteau from the command line:
 
@@ -18,7 +29,7 @@ swift build
 swift run marteau
 ```
 
-## Build for distribution
+#### Build for distribution
 
 To build Marteau for distribution, run the following command:
 
