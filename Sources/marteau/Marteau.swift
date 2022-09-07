@@ -12,12 +12,16 @@
 
 import Foundation
 import ArgumentParser
+import FigSwiftArgumentParser
 import JensonKit
 import Logging
 
 /// The main entry struct that holds all of the program commands.
 @main
 struct Marteau: ParsableCommand {
+    /// An option group that creates a Fig autocomplete spec.
+    @OptionGroup var generateFigSpec: GenerateFigSpec<Self>
+
     /// The logging facility for the program.
     static let logger = Logger(label: "marteau")
 

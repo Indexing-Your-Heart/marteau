@@ -1,52 +1,59 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "JensonKit",
-        "repositoryURL": "https://github.com/Indexing-Your-Heart/JensonKit",
-        "state": {
-          "branch": "root",
-          "revision": "041907ab4dc754330a14023844d6d5a07eb6b9b4",
-          "version": null
-        }
-      },
-      {
-        "package": "swift-argument-parser",
-        "repositoryURL": "https://github.com/apple/swift-argument-parser",
-        "state": {
-          "branch": null,
-          "revision": "9f39744e025c7d377987f30b03770805dcb0bcd1",
-          "version": "1.1.4"
-        }
-      },
-      {
-        "package": "cmark-gfm",
-        "repositoryURL": "https://github.com/apple/swift-cmark.git",
-        "state": {
-          "branch": "gfm",
-          "revision": "476f7b4fcf12eba381b4aaed8987006fd8fcec9c",
-          "version": null
-        }
-      },
-      {
-        "package": "swift-log",
-        "repositoryURL": "https://github.com/apple/swift-log.git",
-        "state": {
-          "branch": null,
-          "revision": "6fe203dc33195667ce1759bf0182975e4653ba1c",
-          "version": "1.4.4"
-        }
-      },
-      {
-        "package": "swift-markdown",
-        "repositoryURL": "https://github.com/apple/swift-markdown.git",
-        "state": {
-          "branch": "main",
-          "revision": "52563fc74a540b29854fde20e836b27394be2749",
-          "version": null
-        }
+  "pins" : [
+    {
+      "identity" : "fig-swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/withfig/fig-swift-argument-parser",
+      "state" : {
+        "revision" : "135586a837dec2d3711584a68e5ca90ee945d9c5",
+        "version" : "0.1.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "jensonkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Indexing-Your-Heart/JensonKit",
+      "state" : {
+        "branch" : "root",
+        "revision" : "041907ab4dc754330a14023844d6d5a07eb6b9b4"
+      }
+    },
+    {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser",
+      "state" : {
+        "revision" : "9f39744e025c7d377987f30b03770805dcb0bcd1",
+        "version" : "1.1.4"
+      }
+    },
+    {
+      "identity" : "swift-cmark",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-cmark.git",
+      "state" : {
+        "branch" : "gfm",
+        "revision" : "476f7b4fcf12eba381b4aaed8987006fd8fcec9c"
+      }
+    },
+    {
+      "identity" : "swift-log",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-log.git",
+      "state" : {
+        "revision" : "6fe203dc33195667ce1759bf0182975e4653ba1c",
+        "version" : "1.4.4"
+      }
+    },
+    {
+      "identity" : "swift-markdown",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-markdown.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "52563fc74a540b29854fde20e836b27394be2749"
+      }
+    }
+  ],
+  "version" : 2
 }
