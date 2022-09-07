@@ -11,6 +11,7 @@
 //  details.
 
 import Foundation
+import JensonKit
 
 public class MarkdownJensonParser {
     public var source: String
@@ -44,20 +45,27 @@ public class MarkdownJensonParser {
         return transformed
     }
 
-}
-
-extension MarkdownJensonParser: DialogueParser {
-    public func compileToString() -> String {
+    public func compileToFileObject() -> JensonFile {
         let parts = transform(events: parser.parse())
-        let fileContents = JensonFile(version: 1, timeline: parts)
+        Marteau.Dialogue.logger.info("Compiled Jenson timeline (\(parts.count) parts total). ")
+        return JensonFile(version: 1, timeline: parts)
+    }
+
+    public func transformCompilationToString(file: JensonFile) -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         do {
-            let data = try encoder.encode(fileContents)
+            let data = try encoder.encode(file)
             return String(data: data, encoding: .utf8) ?? ""
         } catch {
             print(error.localizedDescription)
             return ""
         }
+    }
+}
+
+extension MarkdownJensonParser: DialogueParser {
+    public func compileToString() -> String {
+        return transformCompilationToString(file: compileToFileObject())
     }
 }

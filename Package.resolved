@@ -2,12 +2,21 @@
   "object": {
     "pins": [
       {
+        "package": "JensonKit",
+        "repositoryURL": "https://github.com/Indexing-Your-Heart/JensonKit",
+        "state": {
+          "branch": "root",
+          "revision": "041907ab4dc754330a14023844d6d5a07eb6b9b4",
+          "version": null
+        }
+      },
+      {
         "package": "swift-argument-parser",
         "repositoryURL": "https://github.com/apple/swift-argument-parser",
         "state": {
           "branch": null,
-          "revision": "e1465042f195f374b94f915ba8ca49de24300a0d",
-          "version": "1.0.2"
+          "revision": "9f39744e025c7d377987f30b03770805dcb0bcd1",
+          "version": "1.1.4"
         }
       },
       {
@@ -15,8 +24,17 @@
         "repositoryURL": "https://github.com/apple/swift-cmark.git",
         "state": {
           "branch": "gfm",
-          "revision": "7fc530e5f12432db9768326ff74dc46de72a24e2",
+          "revision": "476f7b4fcf12eba381b4aaed8987006fd8fcec9c",
           "version": null
+        }
+      },
+      {
+        "package": "swift-log",
+        "repositoryURL": "https://github.com/apple/swift-log.git",
+        "state": {
+          "branch": null,
+          "revision": "6fe203dc33195667ce1759bf0182975e4653ba1c",
+          "version": "1.4.4"
         }
       },
       {
@@ -24,7 +42,7 @@
         "repositoryURL": "https://github.com/apple/swift-markdown.git",
         "state": {
           "branch": "main",
-          "revision": "16ebb0ccea68c0009f550bd48cca1df8675685dc",
+          "revision": "52563fc74a540b29854fde20e836b27394be2749",
           "version": null
         }
       }

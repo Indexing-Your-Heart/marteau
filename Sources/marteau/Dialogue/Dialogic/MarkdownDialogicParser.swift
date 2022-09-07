@@ -80,7 +80,7 @@ public class MarkdownDialogicParser {
             }
         }
 
-        print("[i] Compiled dialogue.")
+        Marteau.Dialogue.logger.info("Compiled dialogue.")
         return transform(events: parts)
     }
 }
