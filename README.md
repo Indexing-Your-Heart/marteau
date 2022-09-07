@@ -5,7 +5,8 @@ _Indexing Your Heart_.
 
 ## What does Marteau do?
 
-- **Markdown to Dialogic**: Convert an appropriately-formatted Markdown file into Dialogic JSON.
+- **Markdown to Dialogue**: Convert an appropriately-formatted Markdown file into Dialogic's JSON
+  format or the Jenson file format.
 - **Easy Portrait Import**: Import a series of portraits into a Dialogic character sheet.
 
 ## Running from source
@@ -17,20 +18,20 @@ swift build
 swift run marteau
 ```
 
-> ⚠️ This has not been tested on Linux or Windows, though it should theoretically work on those
-> platforms since Marteau is not directly relying on macOS-specific libraries such as Cocoa or
-> AppKit.
-
 ## Command-line guide
 
 Marteau contains several subcommands:
 
-- `dialogue <markdown-path> <output-timeline-path>`: Convert a Markdown file into a Dialogic
+- `dialogue <markdown-path> <output-timeline-path>`: Convert a Markdown file into a compatible
   timeline. This does _not_ account for background image changes, sound changes, or signal
   emissions. This tool is designed to create a quick-start timeline where details can be added
   later.
     - Optional: `--characters <charpath>`: A path to a list of JSON files that contain character
       definitions in Dialogic format.
+    - Optional: `--debug`: Enables debug messaging. If the output format is `'jenson'`, a
+      debugging JSON file is created.
+    - Optional: `--format <dialogic|jenson>`: The output format to convert the dialogue to.
+      Default is `'dialogic'`.
 - `portraits <portraits-path>`: Import portrait definitions into Dialogic by reading from the
   portraits directory.
 
