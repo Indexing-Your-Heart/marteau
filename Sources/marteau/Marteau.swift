@@ -55,6 +55,9 @@ struct Marteau: ParsableCommand {
         @Flag(help: "Display debugging messages.")
         var debug = false
 
+        @Flag(help: "Disable compression for Jenson files.")
+        var disableCompression = false
+
         func validate() throws {
             guard markdownFile.hasSuffix(".md") else {
                 throw ValidationError("Supplied file must be a Markdown (.md) file.")
@@ -91,6 +94,8 @@ struct Marteau: ParsableCommand {
                     Self.logger.debug("Debug Jenson file written.")
                 }
                 let writer = JensonWriter(contentsOf: resultData)
+                Self.logger.debug("Jenson compression setting set to: \(String(!disableCompression).uppercased())")
+                writer.compressed = !disableCompression
                 try writer.write(to: outPath)
                 Self.logger.info("Jenson file written to '\(outPath)'.")
             default:
