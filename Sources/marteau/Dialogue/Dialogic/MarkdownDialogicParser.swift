@@ -10,7 +10,6 @@
 //  Indexing Your Heart comes with ABSOLUTELY NO WARRANTY, to the extent permitted by applicable law. See the CNPL for
 //  details.
 
-
 import Foundation
 import Markdown
 
@@ -21,7 +20,7 @@ public class MarkdownDialogicParser {
 
     public init(from source: String) {
         self.source = source
-        self.parser = InternalMarkdownParser(from: source)
+        parser = InternalMarkdownParser(from: source)
     }
 
     func updatePart(_ part: Speakable) -> Speakable {
@@ -41,9 +40,9 @@ public class MarkdownDialogicParser {
             if let question = event as? Question {
                 let options = question.choices.flatMap { choice in
                     [
-                        .choice(named: choice.choice)
+                        .choice(named: choice.choice),
                     ]
-                    + transform(events: choice.dialogue)
+                        + transform(events: choice.dialogue)
                 }
                 transformed.append(.question(character: question.who, question: question.question))
                 transformed.append(contentsOf: options)

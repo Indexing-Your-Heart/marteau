@@ -19,7 +19,7 @@ public class MarkdownJensonParser {
 
     public init(from source: String) {
         self.source = source
-        self.parser = InternalMarkdownParser(from: source)
+        parser = InternalMarkdownParser(from: source)
     }
 
     func transform(events: [DialogueUnit]) -> [JensonEvent] {
@@ -66,6 +66,6 @@ public class MarkdownJensonParser {
 
 extension MarkdownJensonParser: DialogueParser {
     public func compileToString() -> String {
-        return transformCompilationToString(file: compileToFileObject())
+        transformCompilationToString(file: compileToFileObject())
     }
 }

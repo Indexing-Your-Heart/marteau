@@ -19,7 +19,7 @@ public class PortraitManager {
     public init(for characters: [DialogicCharacter]) {
         self.characters = characters
         for character in characters {
-            self.images[character.name] = character.portraits
+            images[character.name] = character.portraits
         }
     }
 
@@ -30,17 +30,17 @@ public class PortraitManager {
     }
 
     public func addPortraitPath(_ path: String, to character: String) {
-        if var portraits = self.images[character] {
+        if var portraits = images[character] {
             portraits.append(
                 DialogicPortrait(name: path, path: path)
             )
         } else {
-            self.images[character] = [DialogicPortrait(name: path, path: path)]
+            images[character] = [DialogicPortrait(name: path, path: path)]
         }
     }
 
     public func updatePortraits() -> [DialogicCharacter] {
-        self.characters.map { character in
+        characters.map { character in
             var newCharacter = character
             newCharacter.portraits = self.images[character.name]!
             return PortraitManager.sortPortraits(for: newCharacter)

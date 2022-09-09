@@ -11,12 +11,11 @@
 //  details.
 
 import Foundation
-import XCTest
 import marteau
+import XCTest
 
 /// Tests for the FileUtilities class.
 class FileUtilitiesTests: XCTestCase {
-
     /// Test that FileUtilities can write a string into a file.
     func testCanWriteToFile() throws {
         let filename = "test.txt"
@@ -35,5 +34,4 @@ class FileUtilitiesTests: XCTestCase {
         let text: String = try FileUtilities.read(from: filename)
         XCTAssertTrue(text.contains("Hello, world!"))
     }
-
 }

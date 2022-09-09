@@ -52,4 +52,3 @@ public struct DialogicCharacter: Codable, Identifiable {
         [name, displayName] + nickname.split(separator: ",").map { String($0) }
     }
 }
-

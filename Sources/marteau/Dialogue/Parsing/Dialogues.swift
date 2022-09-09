@@ -16,14 +16,12 @@ public typealias JSONLike = [String: Any]
 
 /// A protocol that determines the struct or class able to be parsed by the Markdown to Dialogic parser.
 public protocol DialogueUnit {
-
     /// The type of dialogue interaction the class or struct falls under.
     var type: DialogueType { get }
 }
 
 /// A protocol that determines the struct or class contains information about a speaker and its message.
 public protocol Speakable {
-
     /// The speaker of the dialogue.
     var who: String { get set }
 

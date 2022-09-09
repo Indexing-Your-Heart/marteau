@@ -24,10 +24,12 @@ let package = Package(
                 .product(name: "Markdown", package: "swift-markdown"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .product(name: "FigSwiftArgumentParser", package: "fig-swift-argument-parser"),
-                .product(name: "JensonKit", package: "JensonKit")
-            ]),
+                .product(name: "JensonKit", package: "JensonKit"),
+            ]
+        ),
         .testTarget(
             name: "marteauTests",
-            dependencies: ["marteau"]),
+            dependencies: ["marteau"]
+        ),
     ]
 )

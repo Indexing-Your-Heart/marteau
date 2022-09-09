@@ -13,6 +13,8 @@
 import Foundation
 import Markdown
 
+typealias Speech = DialogueUnit & Speakable
+
 /// A parser used internally for various parsers.
 class InternalMarkdownParser {
     let source: String
@@ -29,11 +31,9 @@ class InternalMarkdownParser {
         for child in mdDoc.children {
             if let paragraph = child as? Paragraph {
                 parts.append(contentsOf: parseParagraph(paragraph))
-            }
-            else if let quote = child as? BlockQuote {
+            } else if let quote = child as? BlockQuote {
                 parts.append(parseBlockQuote(quote))
-            }
-            else if let question = child as? UnorderedList {
+            } else if let question = child as? UnorderedList {
                 if question.childCount != 1 { continue }
                 parts.append(parseQuestion(question.child(at: 0)! as! ListItem))
             }
@@ -73,54 +73,59 @@ class InternalMarkdownParser {
 
     /// Parses a paragraph, extracting narration and dialogue elements as necessary.
     private func parseParagraph(_ paragraph: Paragraph) -> [DialogueUnit] {
-        // If there are no elements in the paragraph, return an empty list.
         if paragraph.isEmpty { return [DialogueUnit]() }
-
-        // Create a place to store dialogue parts.
         var dialogues = [DialogueUnit]()
-
-        // Create a regex that will look for the format `Name: "Speech."`. This will, in turn, seek out dialogue lines
-        // from a regular line of text.
-        let diaRegex = #"([A-Za-z]+):\s*“([\w\.!\?\s,;'‘’\-…\[\]]+)”+(\s+)?"#
-
-        // Loop through all of the children.
+        let diaRegex = #"([A-Za-z\?]+):\s*“([\w\.\!\?\s,;'‘’\-…\[\]]+)”+(\s+)?"#
+        var patchEmphasis = false
         for child in paragraph.children {
-            // If the child is a Text element, start looking for lines of text to parse.
-            if let line = child as? Text {
-
-                // If the text is narration (i.e., doesn't match the text, just insert the plain text.
-                if line.plainText.range(of: diaRegex, options: [.regularExpression]) == nil {
-                    dialogues.append(
-                        Narration(what: line.plainText)
-                    )
+            if let italics = child as? Emphasis {
+                patchEmphasis = true
+                guard let text = italics.child(at: 0) as? Text else {
+                    continue
                 }
-
-                // Otherwise, treat it as dialogue and create a dialogue element.
-                else {
-                    let splitContents = line.plainText.components(separatedBy: ": ")
-                    if splitContents.count != 2 { continue }
+                if let lastPart = dialogues.popLast() as? Speech {
                     dialogues.append(
-                        Dialogue(
-                            who: splitContents.first!,
-                            what: splitContents.last!
-                        )
+                        lastPart.type == .narration
+                            ? Narration(what: lastPart.what + "*\(text.plainText)*")
+                            : Dialogue(who: lastPart.who, what: lastPart.what + "*\(text.plainText)*")
                     )
+                } else {
+                    dialogues.append(Narration(what: "*\(text.plainText)*"))
                 }
+                continue
             }
 
-            else if let italics = child as? Emphasis {
-                let text = italics.child(at: 0) as! Text
-                if let lastPart = dialogues.last as? Speakable {
-                    let newWhat = lastPart.what + "[i]\(text.plainText)[/i]"
-                    let newWho = lastPart.who
-                    let newType = dialogues.last!.type
-                    dialogues.removeLast()
-                    dialogues.append(
-                        newType == .narration
-                        ? Narration(what: newWhat)
-                        : Dialogue(who: newWho, what: newWhat)
-                    )
+            if let line = child as? Text {
+                var who = ""
+                var what = ""
+                if line.plainText.range(of: diaRegex, options: [.regularExpression]) == nil {
+                    what = line.plainText
+                } else {
+                    let splitContents = line.plainText.components(separatedBy: ": ")
+                    if splitContents.count != 2 { continue }
+                    who = splitContents.first!
+                    what = splitContents.last!
                 }
+
+                if patchEmphasis {
+                    var didUpdate = false
+                    if let oldElement = dialogues.popLast() as? Speech {
+                        dialogues.append(
+                            who
+                                .isEmpty ? Narration(what: oldElement.what + what) :
+                                Dialogue(who: who, what: oldElement.what + what)
+                        )
+                        didUpdate = true
+                    }
+                    patchEmphasis = false
+                    if didUpdate {
+                        continue
+                    }
+                }
+
+                dialogues.append(
+                    who.isEmpty ? Narration(what: what) : Dialogue(who: who, what: what)
+                )
             }
         }
         return dialogues

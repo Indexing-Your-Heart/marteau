@@ -20,7 +20,6 @@ enum TestError: Error {
 
 /// A test case that handles the Markdown to Dialogic parser.
 final class MarkdownParsingTests: XCTestCase {
-
     /// Test that the Markdown to Dialogic parser can successfully construct a narration block.
     func testMarkdownNarration() throws {
         let example = "I slowly walk to the door."
@@ -66,7 +65,6 @@ final class MarkdownParsingTests: XCTestCase {
         guard let question = parsedData as? Question else {
             throw TestError.castReturnedNil
         }
-
 
         XCTAssertEqual(question.question, "Where should I go?")
         XCTAssertEqual(question.choices.count, 2)

@@ -13,8 +13,7 @@
 import Foundation
 
 /// A struct containing utilities for reading and writing files.
-public struct FileUtilities {
-
+public enum FileUtilities {
     public enum FError: Error {
         case fileNotFound
     }
@@ -47,7 +46,7 @@ public struct FileUtilities {
     /// - Parameter filepath: The path to the file to read.
     /// - Parameter encoding: The encoding of the file.
     /// - Returns: A Data object containing the contents of the file.
-    public static func read(from filepath: String, encoding: String.Encoding = .utf8) throws -> Data {
+    public static func read(from filepath: String, encoding _: String.Encoding = .utf8) throws -> Data {
         let filePath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
         let inPath = filePath.appendingPathComponent(filepath)
         if let fileData = FileManager.default.contents(atPath: inPath.path) {

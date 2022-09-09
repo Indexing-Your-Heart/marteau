@@ -11,6 +11,4 @@
 //  details.
 import XCTest
 
-final class utilsTests: XCTestCase {
-
-}
+final class utilsTests: XCTestCase {}

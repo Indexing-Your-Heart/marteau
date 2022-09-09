@@ -10,7 +10,6 @@
 //  Indexing Your Heart comes with ABSOLUTELY NO WARRANTY, to the extent permitted by applicable law. See the CNPL for
 //  details.
 
-
 import Foundation
 
 protocol DialogueParser {
