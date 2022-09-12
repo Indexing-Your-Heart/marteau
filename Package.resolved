@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Indexing-Your-Heart/JensonKit",
       "state" : {
-        "branch" : "root",
-        "revision" : "aadee327e47cfe048dd0599c7922f9a377664501"
+        "revision" : "51d3979ce0720253b77d76b56c4809998f70ecd2",
+        "version" : "0.1.0-alpha2"
       }
     },
     {

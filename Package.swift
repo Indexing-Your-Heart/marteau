@@ -11,7 +11,7 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-markdown.git", branch: "main"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.0.0"),
-        .package(url: "https://github.com/Indexing-Your-Heart/JensonKit", branch: "root"),
+        .package(url: "https://github.com/Indexing-Your-Heart/JensonKit", from: .init(0, 1, 0, prereleaseIdentifiers: ["alpha"])),
         .package(url: "https://github.com/withfig/fig-swift-argument-parser", .upToNextMinor(from: "0.1.0")),
     ],
     targets: [
