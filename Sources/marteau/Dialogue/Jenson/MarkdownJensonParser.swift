@@ -47,8 +47,8 @@ public class MarkdownJensonParser {
 
     public func compileToFileObject() -> JensonFile {
         let parts = transform(events: parser.parse())
-        Marteau.Dialogue.logger.info("Compiled Jenson timeline (\(parts.count) parts total). ")
-        return JensonFile(version: 1, timeline: parts)
+        DialogueCommand.logger.info("Compiled Jenson timeline (\(parts.count) parts total). ")
+        return JensonFile(version: 2, timeline: parts)
     }
 
     public func transformCompilationToString(file: JensonFile) -> String {

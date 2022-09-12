@@ -10,16 +10,18 @@
 //  Indexing Your Heart comes with ABSOLUTELY NO WARRANTY, to the extent permitted by applicable law. See the CNPL for
 //  details.
 
-import Foundation
 import ArgumentParser
-import Logging
+import Foundation
 import JensonKit
+import Logging
 
 /// The subcommand struct for dialogue conversion.
 struct DialogueCommand: ParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "dialogue",
-        abstract: "Converts a Markdown document into Dialogic JSON."
+        abstract: "[Deprecated] Converts a Markdown document into Dialogic JSON.",
+        discussion: "This command has been deprecated. Use either 'dialogic' or 'jenson' instead.",
+        shouldDisplay: false
     )
     static var logger = Logger(label: "dialogue")
 
@@ -53,6 +55,7 @@ struct DialogueCommand: ParsableCommand {
 
     func run() throws {
         if debug { Self.logger.logLevel = .debug }
+        Self.logger.warning("The 'dialogue' command is deprecated. Use either 'jenson' or 'dialogic' instead.")
         let markdownText: String = try FileUtilities.read(from: markdownFile, encoding: .utf8)
         switch format {
         case "dialogic":
@@ -90,4 +93,4 @@ struct DialogueCommand: ParsableCommand {
             return
         }
     }
-    }
+}

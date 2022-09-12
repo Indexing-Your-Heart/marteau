@@ -39,7 +39,7 @@ class InternalMarkdownParser {
             }
         }
 
-        Marteau.Dialogue.logger.debug("Parsed \(parts.count) items.")
+        DialogueCommand.logger.debug("Parsed \(parts.count) items.")
         return parts
     }
 

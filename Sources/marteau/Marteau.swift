@@ -28,8 +28,6 @@ struct Marteau: ParsableCommand {
     /// The configuration for the main program.
     static let configuration = CommandConfiguration(
         abstract: "A set of utilities for Indexing Your Heart.",
-        subcommands: [Dialogue.self]
+        subcommands: [DialogueCommand.self, DialogicCommand.self, JensonCommand.self]
     )
-
-    typealias Dialogue = DialogueCommand
 }
