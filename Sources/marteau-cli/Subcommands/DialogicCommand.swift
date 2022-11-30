@@ -13,6 +13,7 @@
 import ArgumentParser
 import Foundation
 import Logging
+import Marteau
 
 struct DialogicCommand: ParsableCommand {
     static let configuration = CommandConfiguration(

@@ -11,7 +11,7 @@
 //  details.
 
 import Foundation
-import marteau
+import Marteau
 import XCTest
 
 /// Tests for the FileUtilities class.

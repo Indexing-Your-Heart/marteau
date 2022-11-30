@@ -11,7 +11,7 @@
 //  details.
 
 import Foundation
-@testable import marteau
+@testable import Marteau
 import XCTest
 
 enum TestError: Error {

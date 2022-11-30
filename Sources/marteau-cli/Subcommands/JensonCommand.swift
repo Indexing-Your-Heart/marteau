@@ -14,6 +14,7 @@ import ArgumentParser
 import Foundation
 import JensonKit
 import Logging
+import Marteau
 
 struct JensonCommand: ParsableCommand {
     static let configuration = CommandConfiguration(

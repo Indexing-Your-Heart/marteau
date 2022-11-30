@@ -6,6 +6,10 @@ import PackageDescription
 let package = Package(
     name: "Marteau",
     platforms: [.iOS(.v15), .macOS(.v12), .macCatalyst(.v15), .tvOS(.v15)],
+    products: [
+        .library(name: "Marteau", targets: ["Marteau"]),
+        .executable(name: "marteau-cli", targets: ["marteau-cli"]),
+    ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
@@ -20,19 +24,31 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
-        .executableTarget(
-            name: "marteau",
+        .target(
+            name: "Marteau",
             dependencies: [
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "Markdown", package: "swift-markdown"),
-                .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                .product(name: "FigSwiftArgumentParser", package: "fig-swift-argument-parser"),
                 .product(name: "JensonKit", package: "JensonKit"),
             ]
         ),
+        .executableTarget(
+            name: "marteau-cli",
+            dependencies: [
+                .target(name: "Marteau"),
+                .product(name: "Logging", package: "swift-log"),
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "FigSwiftArgumentParser", package: "fig-swift-argument-parser"),
+            ]
+        ),
         .testTarget(
-            name: "marteauTests",
-            dependencies: ["marteau"]
+            name: "MarteauTests",
+            dependencies: [
+                .target(name: "Marteau"),
+                .product(name: "Logging", package: "swift-log"),
+                .product(name: "Markdown", package: "swift-markdown"),
+                .product(name: "JensonKit", package: "JensonKit"),
+            ]
         ),
     ]
 )

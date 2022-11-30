@@ -12,12 +12,14 @@
 
 import Foundation
 import Markdown
+import Logging
 
 typealias Speech = DialogueUnit & Speakable
 
 /// A parser used internally for various parsers.
 class InternalMarkdownParser {
     let source: String
+    var logger = Logger(label: "md-parser-internal")
 
     init(from source: String) {
         self.source = source
@@ -39,7 +41,7 @@ class InternalMarkdownParser {
             }
         }
 
-        DialogueCommand.logger.debug("Parsed \(parts.count) items.")
+        logger.debug("Parsed \(parts.count) items.")
         return parts
     }
 

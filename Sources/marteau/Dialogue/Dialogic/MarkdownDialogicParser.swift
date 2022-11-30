@@ -12,10 +12,12 @@
 
 import Foundation
 import Markdown
+import Logging
 
 public class MarkdownDialogicParser {
     public var source: String
     public var characterDefinitions: [DialogicCharacter] = []
+    public var logger = Logger(label: "md-dialogic-parser")
     private var parser: InternalMarkdownParser
 
     public init(from source: String) {
@@ -79,7 +81,7 @@ public class MarkdownDialogicParser {
             }
         }
 
-        DialogueCommand.logger.info("Compiled dialogue.")
+        logger.info("Compiled dialogue.")
         return transform(events: parts)
     }
 }

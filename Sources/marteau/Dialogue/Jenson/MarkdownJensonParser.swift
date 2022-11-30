@@ -12,9 +12,11 @@
 
 import Foundation
 import JensonKit
+import Logging
 
 public class MarkdownJensonParser {
     public var source: String
+    public var logger = Logger(label: "md-jenson-parser")
     private var parser: InternalMarkdownParser
 
     public init(from source: String) {
@@ -47,7 +49,7 @@ public class MarkdownJensonParser {
 
     public func compileToFileObject() -> JensonFile {
         let parts = transform(events: parser.parse())
-        DialogueCommand.logger.info("Compiled Jenson timeline (\(parts.count) parts total). ")
+        logger.info("Compiled Jenson timeline (\(parts.count) parts total). ")
         return JensonFile(version: 2, timeline: parts)
     }
 
