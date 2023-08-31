@@ -63,7 +63,7 @@ struct SwizzleCommand: ParsableCommand {
         let outputPath = URL(fileURLWithPath: outputFile)
         do {
             try swizzled.write(to: outputPath)
-            Self.logger.info("Wrote swizzled data to \(outputFile))")
+            Self.logger.info("Wrote swizzled data to \(outputFile)")
         } catch {
             Self.logger.error("Failed to write swizzled data to disk: \(error.localizedDescription)")
         }
