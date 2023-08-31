@@ -8,13 +8,14 @@ let package = Package(
     platforms: [.iOS(.v15), .macOS(.v12), .macCatalyst(.v15), .tvOS(.v15)],
     products: [
         .library(name: "Marteau", targets: ["Marteau"]),
-        .executable(name: "marteau-cli", targets: ["marteau-cli"]),
+        .executable(name: "marteau", targets: ["marteau-cli"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-markdown.git", branch: "main"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.0.0"),
+        .package(url: "https://github.com/apple/swift-algorithms", from: "1.0.0"),
         .package(
             url: "https://github.com/Indexing-Your-Heart/JensonKit",
             from: .init(0, 1, 0, prereleaseIdentifiers: ["alpha"])
@@ -29,6 +30,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "Markdown", package: "swift-markdown"),
+                .product(name: "Algorithms", package: "swift-algorithms"),
                 .product(name: "JensonKit", package: "JensonKit"),
             ]
         ),
@@ -48,6 +50,9 @@ let package = Package(
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "Markdown", package: "swift-markdown"),
                 .product(name: "JensonKit", package: "JensonKit"),
+            ],
+            resources: [
+                .process("Resources")
             ]
         ),
     ]
