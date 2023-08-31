@@ -8,7 +8,7 @@ let package = Package(
     platforms: [.iOS(.v15), .macOS(.v12), .macCatalyst(.v15), .tvOS(.v15)],
     products: [
         .library(name: "Marteau", targets: ["Marteau"]),
-        .executable(name: "marteau-cli", targets: ["marteau-cli"]),
+        .executable(name: "marteau", targets: ["marteau-cli"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
