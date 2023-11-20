@@ -24,6 +24,8 @@ class FileUtilitiesTests: XCTestCase {
         let originalPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
         let filePath = originalPath.appendingPathComponent(filename)
         XCTAssertTrue(FileManager.default.fileExists(atPath: filePath.path))
+
+        try FileManager.default.removeItem(at: filePath)
     }
 
     /// Test that FileUtilities can read a file as a string.

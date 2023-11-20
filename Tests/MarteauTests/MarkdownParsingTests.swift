@@ -127,5 +127,6 @@ final class MarkdownParsingTests: XCTestCase {
         let rootPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
         let testPath = rootPath.appendingPathComponent(filename)
         XCTAssertTrue(FileManager.default.fileExists(atPath: testPath.path))
+        try FileManager.default.removeItem(at: testPath)
     }
 }
